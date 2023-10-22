@@ -13,6 +13,8 @@ public class BirdScript : MonoBehaviour
     public float deadZoneTop = 15;
     public float deadZoneBottom = -15;
 
+    public AudioSource deadSound;
+
 
 
     // Start is called before the first frame update
@@ -25,30 +27,36 @@ public class BirdScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) == true && birdIsAlive == true)
-        {
-            myRigidbody.velocity = Vector2.up * flapStrength;
-        }
-     
-        if (transform.position.y < deadZoneBottom || transform.position.y > deadZoneTop)
-        {
-            birdDead();
-        }
+        if (birdIsAlive) {
+            if (Input.GetKeyDown(KeyCode.Space) == true)
+            {
+                myRigidbody.velocity = Vector2.up * flapStrength;
+            }
 
-        if (birdIsAlive == false)
+            if (transform.position.y < deadZoneBottom || transform.position.y > deadZoneTop)
+            {
+                BirdDead();
+            }
+        } else
         {
             logic.gameOver();
         }
-        
+
     }
 
-   void birdDead()
+   void BirdDead()
     {
-        birdIsAlive = false;
+        if(birdIsAlive)
+        {
+            deadSound.Play();
+            birdIsAlive = false;
+        }
+        
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        birdDead();
+        BirdDead();
     }
 }
