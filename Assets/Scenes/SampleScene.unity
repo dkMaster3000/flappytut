@@ -5322,6 +5322,7 @@ MonoBehaviour:
   deadZoneTop: 15
   deadZoneBottom: -15
   deadSound: {fileID: 864071876}
+  circleCollider: {fileID: 864071875}
 --- !u!58 &864071875
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5524,6 +5525,7 @@ MonoBehaviour:
   gameOverScreen: {fileID: 764683521}
   highScoreText: {fileID: 1792727578}
   highScore: 0
+  pphighScore: highScore
   scoreSound: {fileID: 1066211144}
 --- !u!82 &1066211144
 AudioSource:
