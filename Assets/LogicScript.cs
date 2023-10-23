@@ -12,6 +12,15 @@ public class LogicScript : MonoBehaviour
 
     public AudioSource scoreSound;
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+    }
+
     //[ContextMenu("Increase Score")]
     public void addScore(int scoreToAdd)
     {
