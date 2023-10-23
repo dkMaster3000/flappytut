@@ -10,7 +10,19 @@ public class LogicScript : MonoBehaviour
     public Text scoreText;
     public GameObject gameOverScreen;
 
+    public Text highScoreText;
+    public int highScore = 0;
+    public string pphighScore = "highScore";
+
     public AudioSource scoreSound;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        highScore = PlayerPrefs.GetInt(pphighScore);
+        updateHighScoreText();
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -19,6 +31,13 @@ public class LogicScript : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if (playerScore > highScore)
+        {
+            highScore = playerScore;
+            updateHighScoreText();
+        }
+
     }
 
     //[ContextMenu("Increase Score")]
@@ -33,6 +52,11 @@ public class LogicScript : MonoBehaviour
      
     }
 
+    public void updateHighScoreText()
+    {
+        highScoreText.text = "Highscore: " + highScore.ToString();
+    }
+
     public void restartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);   
@@ -42,6 +66,12 @@ public class LogicScript : MonoBehaviour
     public void gameOver()
     {
         gameOverScreen.SetActive(true);
+
+        if (playerScore >= highScore)
+        {
+            PlayerPrefs.SetInt(pphighScore, highScore);
+        }
+
     }
 
 }
