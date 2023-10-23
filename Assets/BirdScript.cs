@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BirdScript : MonoBehaviour
@@ -14,6 +15,10 @@ public class BirdScript : MonoBehaviour
     public float deadZoneBottom = -15;
 
     public AudioSource deadSound;
+
+    public CircleCollider2D circleCollider;
+    private float colliderTimer = 0;
+    private readonly int ghostTime = 3;
 
 
 
@@ -33,6 +38,25 @@ public class BirdScript : MonoBehaviour
                 myRigidbody.velocity = Vector2.up * flapStrength;
             }
 
+            if (Input.GetKeyDown(KeyCode.D) && circleCollider.enabled)
+            {
+                circleCollider.enabled = false;
+                setAlpha(0.5f);
+
+            } 
+
+            if (!circleCollider.enabled)
+            {
+                colliderTimer += Time.deltaTime;
+                if(colliderTimer > ghostTime)
+                {
+                    colliderTimer = 0;
+                    circleCollider.enabled = true;
+                    setAlpha(1f);
+                }
+
+            }
+
             if (transform.position.y < deadZoneBottom || transform.position.y > deadZoneTop)
             {
                 BirdDead();
@@ -44,7 +68,19 @@ public class BirdScript : MonoBehaviour
 
     }
 
-   void BirdDead()
+    void setAlpha(float alpha)
+    {
+        SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
+        Color newColor;
+        foreach (SpriteRenderer child in children)
+        {
+            newColor = child.color;
+            newColor.a = alpha;
+            child.color = newColor;
+        }
+    }
+
+    void BirdDead()
     {
         if(birdIsAlive)
         {
